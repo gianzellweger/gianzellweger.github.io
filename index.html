@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>PREMOVE</title>
+  <script src="coi-serviceworker.js"></script>
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+<header>
+  <div class="logo">PREMOVE</div>
+  <div class="tagline">Stockfish locks in its move<br>before you play yours</div>
+</header>
+
+<div class="setup-wrap">
+  <div class="setup-title">New Game</div>
+
+  <div class="setup-group">
+    <div class="setup-label">Play as</div>
+    <div class="color-picker">
+      <button class="color-opt sel" data-color="white">
+        <span class="glyph">♔</span>White
+      </button>
+      <button class="color-opt" data-color="black">
+        <span class="glyph">♚</span>Black
+      </button>
+    </div>
+  </div>
+
+  <div class="setup-group">
+    <div class="setup-label">Time control</div>
+    <div class="time-picker">
+      <button class="time-opt"     data-time="60">1 min</button>
+      <button class="time-opt"     data-time="180">3 min</button>
+      <button class="time-opt sel" data-time="300">5 min</button>
+      <button class="time-opt"     data-time="600">10 min</button>
+      <button class="time-opt"     data-time="0">∞</button>
+    </div>
+  </div>
+
+  <div class="setup-group">
+    <div class="setup-label">Engine depth</div>
+    <div style="display:flex; align-items:center; gap:12px;">
+      <input type="range" id="depth-slider" min="2" max="16" value="10"
+        style="flex:1; -webkit-appearance:none; height:1px; background:var(--border); outline:none; cursor:pointer;">
+      <span id="depth-val"
+        style="font-family:'Bebas Neue',sans-serif; font-size:1rem; color:var(--accent); min-width:24px; text-align:right;">
+        10
+      </span>
+    </div>
+  </div>
+
+  <button class="start-btn" id="start-btn">Start Game</button>
+</div>
+
+<style>
+  /* Thumb styling for the depth slider */
+  input[type=range]::-webkit-slider-thumb {
+    -webkit-appearance: none; width:10px; height:10px;
+    background: var(--accent); border-radius:50%; box-shadow:0 0 6px var(--accent);
+  }
+  input[type=range]::-moz-range-thumb {
+    width:10px; height:10px; background:var(--accent); border-radius:50%; border:none;
+  }
+</style>
+
+<script>
+  // Color selector
+  document.querySelectorAll('.color-opt').forEach(btn =>
+    btn.addEventListener('click', () => {
+      document.querySelectorAll('.color-opt').forEach(b => b.classList.remove('sel'));
+      btn.classList.add('sel');
+    })
+  );
+
+  // Time selector
+  document.querySelectorAll('.time-opt').forEach(btn =>
+    btn.addEventListener('click', () => {
+      document.querySelectorAll('.time-opt').forEach(b => b.classList.remove('sel'));
+      btn.classList.add('sel');
+    })
+  );
+
+  // Depth slider label
+  const slider = document.getElementById('depth-slider');
+  const depthVal = document.getElementById('depth-val');
+  slider.addEventListener('input', () => { depthVal.textContent = slider.value; });
+
+  // Navigate to game page with query string
+  document.getElementById('start-btn').addEventListener('click', () => {
+    const color = document.querySelector('.color-opt.sel')?.dataset.color || 'white';
+    const time  = document.querySelector('.time-opt.sel')?.dataset.time  || '300';
+    const depth = slider.value;
+    location.href = `game.html?color=${color}&time=${time}&depth=${depth}`;
+  });
+</script>
+
+</body>
+</html>

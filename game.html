@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>PREMOVE — Game</title>
+  <script src="coi-serviceworker.js"></script>
+  <link rel="stylesheet" href="css/chessboard-1.0.0.min.css">
+  <link rel="stylesheet" href="css/style.css">
+  <script src="jquery.js"></script>
+  <script src="js/chessboard-1.0.0.min.js"></script>
+</head>
+<body>
+
+<header>
+  <div class="logo">PREMOVE</div>
+  <div class="tagline">Stockfish locks in its move<br>before you play yours</div>
+  <div class="engine-pip" id="epip"></div>
+</header>
+
+<div class="layout">
+
+  <!-- Board column -->
+  <div class="board-col">
+
+    <!-- Opponent (top) player bar -->
+    <div class="player-bar">
+      <div class="pdot" id="dot-top"></div>
+      <div class="pname" id="name-top"></div>
+      <div class="mat-row" id="mat-top"></div>
+      <div class="lock-ind" id="lock-ind">locked</div>
+      <div class="clock" id="clk-top">—</div>
+    </div>
+
+    <div id="board-wrap">
+      <div id="board" style="width:480px;"></div>
+
+      <!-- Game over overlay -->
+      <div id="game-over">
+        <div id="go-title"></div>
+        <div id="go-sub"></div>
+        <div class="go-btn-row">
+          <button class="go-btn primary" id="go-btn-again">Play Again</button>
+          <a      class="go-btn"         id="go-btn-menu"  href="index.html">← Menu</a>
+        </div>
+      </div>
+    </div>
+
+    <!-- Player (bottom) player bar -->
+    <div class="player-bar">
+      <div class="pdot" id="dot-bot"></div>
+      <div class="pname" id="name-bot"></div>
+      <div class="mat-row" id="mat-bot"></div>
+      <div class="clock" id="clk-bot">—</div>
+    </div>
+
+  </div>
+
+  <!-- Side panel -->
+  <div class="side-col">
+    <div class="card">
+      <div class="card-lbl">Moves</div>
+      <div id="move-list"></div>
+    </div>
+    <div class="btn-row">
+      <a class="btn" href="index.html">← Menu</a>
+    </div>
+  </div>
+
+</div>
+
+<script type="module" src="js/game.js"></script>
+
+</body>
+</html>
