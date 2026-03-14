@@ -10,8 +10,7 @@ import { refreshMaterial } from './material.js';
 
 // ── Config ────────────────────────────────────────────────────────────────────
 
-const FALLBACK_MOVETIME = 10000; // ms — used when all premoves fail or are empty
-const WHITE_OPENINGS    = ['e2e4', 'd2d4', 'c2c4', 'g1f3'];
+const WHITE_OPENINGS = ['e2e4', 'd2d4', 'c2c4', 'g1f3'];
 
 // ── Parse query string ────────────────────────────────────────────────────────
 
@@ -163,7 +162,7 @@ async function engineRespond(humanUci) {
   }
   // 5. Live search: no premove available — think from scratch.
   if (!result) {
-    const lines = await Engine.searchTime(chess.fen(), FALLBACK_MOVETIME);
+    const lines = await Engine.search(chess.fen(), maxDepth);
     result = tryMove(Engine.bestMove(lines));
     moveSource = 'live';
   }
