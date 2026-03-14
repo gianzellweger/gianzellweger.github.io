@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>PREMOVE — How It Works</title>
+  <script src="vendor/coi-serviceworker.js"></script>
+  <link rel="stylesheet" href="css/style.css">
+  <style>
+    .rules-wrap {
+      display: flex; flex-direction: column;
+      gap: 32px; padding: 52px 32px;
+      width: 100%; max-width: 600px; margin: 0 auto;
+    }
+    .rules-title {
+      font-family: 'Bebas Neue', sans-serif; font-size: 1rem;
+      letter-spacing: 0.25em; color: var(--muted);
+    }
+    .rules-section { display: flex; flex-direction: column; gap: 10px; }
+    .rules-section-title {
+      font-size: 0.52rem; letter-spacing: 0.2em;
+      text-transform: uppercase; color: var(--accent);
+    }
+    .rules-body {
+      font-size: 0.62rem; line-height: 2; color: var(--muted);
+    }
+    .rules-body em {
+      color: var(--text); font-style: normal;
+    }
+    .rules-body .hi {
+      color: var(--accent);
+    }
+    .step-list {
+      list-style: none; display: flex; flex-direction: column; gap: 8px;
+      font-size: 0.62rem; line-height: 1.9; color: var(--muted);
+    }
+    .step-list li {
+      display: flex; gap: 12px; align-items: baseline;
+    }
+    .step-num {
+      font-family: 'Bebas Neue', sans-serif; font-size: 1rem;
+      color: var(--accent); flex-shrink: 0; line-height: 1; min-width: 18px;
+    }
+    .divider {
+      height: 1px; background: var(--border); width: 100%;
+    }
+  </style>
+</head>
+<body>
+
+<header>
+  <div class="logo">PREMOVE</div>
+  <div class="tagline">Stockfish locks in its move<br>before you play yours</div>
+</header>
+
+<div class="rules-wrap">
+  <div class="rules-title">How It Works</div>
+
+  <div class="rules-section">
+    <div class="rules-section-title">The Core Rule</div>
+    <div class="rules-body">
+      In normal chess, both players think <em>after</em> seeing the opponent's move.
+      Here, Stockfish commits to its reply <em>before you move</em> — blind.
+      Once you see the <span class="hi">locked</span> indicator light up in the opponent's bar,
+      the engine's move is already decided. Whatever you play, it fires that move instantly.
+    </div>
+  </div>
+
+  <div class="divider"></div>
+
+  <div class="rules-section">
+    <div class="rules-section-title">How Stockfish Picks Its Premove</div>
+    <div class="rules-body">
+      While you're thinking, the engine analyses the position and tries to find a move
+      that works safely across the widest range of things you might play.
+      It ranks your candidate moves by how likely they are, then for each one asks:
+      <em>what's my best reply here?</em> The move that holds up well across the most
+      weighted scenarios becomes the premove.
+      <br><br>
+      A <em>blunder penalty</em> discards moves that look good against the predicted
+      line but hang a piece in an alternative — like a knight that's great on f6 until
+      a pawn advances to attack it.
+    </div>
+  </div>
+
+  <div class="divider"></div>
+
+  <div class="rules-section">
+    <div class="rules-section-title">The Fallback Hierarchy</div>
+    <div class="rules-body">No premove is perfectly universal, so there are layers:</div>
+    <ol class="step-list">
+      <li>
+        <span class="step-num">1</span>
+        <span><em>Conditional</em> — a move currently illegal for the engine (e.g. a recapture on a square you might capture first). Fires only if your move makes it legal.</span>
+      </li>
+      <li>
+        <span class="step-num">2</span>
+        <span><em>Generic</em> — the main blind premove. The broadly-safe choice. Fires roughly 75% of the time.</span>
+      </li>
+      <li>
+        <span class="step-num">3</span>
+        <span><em>Backup</em> — a different piece from the generic, in case your move captured the generic piece.</span>
+      </li>
+      <li>
+        <span class="step-num">4</span>
+        <span><em>Check response</em> — a prepared reply to specific checks. Generic moves are usually illegal when in check, so these are stored separately.</span>
+      </li>
+      <li>
+        <span class="step-num">5</span>
+        <span><em>Live search</em> — all premoves failed or weren't computed in time. The engine thinks from scratch with a 10-second time limit. This is the only case it gets to see your move first.</span>
+      </li>
+    </ol>
+  </div>
+
+  <div class="divider"></div>
+
+  <div class="rules-section">
+    <div class="rules-section-title">The Indicator</div>
+    <div class="rules-body">
+      The dot in the top-right of the header shows engine state.<br>
+      <em>Pulsing orange</em> — computing premoves or searching.<br>
+      <em>Solid green</em> — premove is locked and ready.<br><br>
+      The <span class="hi">locked</span> label in the opponent bar lights up the moment a
+      safe generic premove is confirmed. If it's still dark when you move, the engine will
+      fall through the hierarchy above.
+    </div>
+  </div>
+
+  <div class="divider"></div>
+
+  <div class="rules-section">
+    <div class="rules-section-title">Strategy</div>
+    <div class="rules-body">
+      Stockfish handicaps itself by committing blind. You can exploit this:
+      play surprising moves that the engine didn't anticipate, create positions where
+      the generic premove hangs material, or give check to force a fallback.
+      The engine depth slider controls how deeply it evaluates each scenario —
+      lower depth gives you a bigger edge.
+    </div>
+  </div>
+
+  <a class="btn" href="index.html" style="max-width:600px; margin: 0 32px 52px;">← Back to Menu</a>
+
+</div>
+
+</body>
+</html>
