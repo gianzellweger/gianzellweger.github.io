@@ -1,7 +1,7 @@
 // game.js — orchestrator for game.html
 // Config via query string: ?color=white&time=300&depth=10
 
-import { Chess }           from '../chess.js';
+import { Chess }           from '../vendor/chess.js';
 import Engine              from './engine.js';
 import Premove             from './premove.js';
 import Clock               from './clock.js';

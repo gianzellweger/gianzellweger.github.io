@@ -72,7 +72,7 @@ const Engine = (() => {
       // Dynamically load stockfish.js then wait for it to signal readiness
       await new Promise((res, rej) => {
         const s   = document.createElement('script');
-        s.src     = './stockfish.js';
+        s.src     = './vendor/stockfish.js';
         s.onload  = res;
         s.onerror = () => rej(new Error('stockfish.js not found'));
         document.head.appendChild(s);

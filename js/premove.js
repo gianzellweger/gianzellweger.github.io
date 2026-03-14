@@ -28,7 +28,7 @@
 // improve over time until the human moves or max depth is reached.
 
 import Engine from './engine.js';
-import { Chess } from '../chess.js';
+import { Chess } from '../vendor/chess.js';
 
 // ── Tuning constants ──────────────────────────────────────────────────────────
 
